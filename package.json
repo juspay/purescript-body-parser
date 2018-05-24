@@ -1,0 +1,24 @@
+{
+  "name": "purescript-body-parser",
+  "version": "1.0.0",
+  "description": "purescript wrapper for body-parser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://newspecies@bitbucket.org/newspecies/purescript-body-parser.git"
+  },
+  "keywords": [
+    "body-parser",
+    "purescript"
+  ],
+  "author": "iamnewspecies",
+  "license": "https://github.com/juspay/purescript-body-parser/blob/master/LICENSE",
+  "homepage": "https://bitbucket.org/newspecies/purescript-body-parser#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "xml2json": "^0.11.2"
+  }
+}
