@@ -28,21 +28,17 @@
 var bodyParser = require("body-parser");
 var xmlParser = require("xml2json");
 
-const merchantV2URL = {
-  "/api/v1/merchants/isValidVPA" : true,
-  "/api/v1/merchants/webCollect" : true,
-  "/api/v1/merchants/refund" : true,
-  "/api/v1/merchants/transaction/status" : true
+var verifyFunction = function(req, res, buf, encoding) {
+  //DO NOTHING
+};
+
+exports.setVerifyFunction = function(f) {
+  var verifyFunction = f;
 }
 
 exports.jsonBodyParser = bodyParser.json({
   limit: "5mb",
-  verify : function(req, res, buf, encoding) {
-    if(merchantV2URL[req.originalUrl] === true) {
-      req.userData = req.userData || {};
-      req.userData["rawBody"] = buf.toString(encoding)
-    }
-  }
+  verify : verifyFunction
 });
 
 exports.urlDecoder = bodyParser.urlencoded({

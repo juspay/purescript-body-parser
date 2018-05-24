@@ -25,6 +25,7 @@ import Prelude
 import Data.Function.Uncurried (Fn3)
 import Node.Express.Types (ExpressM, Request, Response)
 
+foreign import setVerifyFunction :: forall e. (Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)) -> (ExpressM e Unit)
 foreign import jsonBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import urlDecoder :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import xmlBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
