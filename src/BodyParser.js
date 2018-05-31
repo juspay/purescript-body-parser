@@ -27,8 +27,6 @@
 
 var bodyParser = require("body-parser");
 var xmlParser = require("xml2json");
-var Busboy = require('busboy');
-var inspect = require('util').inspect;
 var multiparty = require('multiparty');
 
 var verifyFunction = function(req, res, buf, encoding) {
@@ -85,8 +83,14 @@ exports.mutipartBodyParser = function(req, res, next) {
       if(err) {
         res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
       } else {
-        req.body = inspect(fields);
-        next();
+        try {
+          var keys = Object.keys(fields);
+          keys.map(function(key) { fields[key] = fields[key][0]});
+          req.body = fields;
+          next();
+        } catch (error) {
+          res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
+        }
       }
     });
   } else {
