@@ -29,4 +29,5 @@ foreign import setVerifyFunction :: forall e. (Fn3 Request Response (ExpressM e 
 foreign import jsonBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import urlDecoder :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import xmlBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
+foreign import mutipartBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import textBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)

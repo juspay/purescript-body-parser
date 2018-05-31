@@ -27,6 +27,8 @@
 
 var bodyParser = require("body-parser");
 var xmlParser = require("xml2json");
+var Busboy = require('busboy');
+var inspect = require('util').inspect;
 
 var verifyFunction = function(req, res, buf, encoding) {
   //DO NOTHING
@@ -73,5 +75,21 @@ exports.xmlBodyParser = function(req, res, next) {
     next();
   }
 };
+
+exports.mutipartBodyParser = function(req, res, next) {
+  if(req.is("multipart/form-data")) {
+    var busboy = new Busboy({ headers: req.headers });
+    req.body = {};
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+      req.body[fieldname] = inspect(val);
+    });
+    busboy.on('finish', function() {
+      next();
+   	});
+    req.pipe(busboy);
+  } else {
+    next();
+  }
+}
 
 exports.textBodyParser = bodyParser.text();
