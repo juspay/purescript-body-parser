@@ -22,12 +22,23 @@
 module BodyParser where
 
 import Prelude
-import Data.Function.Uncurried (Fn3)
+import Data.Foreign (Foreign)
+import Data.Function.Uncurried (Fn3, Fn4)
+import Data.Options (Option, Options, opt, options)
 import Node.Express.Types (ExpressM, Request, Response)
+
+data BodyParserOpts
+data MutipartParserOpts
+
+mpMaxFieldsSize :: Option MutipartParserOpts Int
+mpMaxFieldsSize = opt "maxFieldsSize"
+
+mpMaxFileSize :: Option MutipartParserOpts Int
+mpMaxFileSize = opt "maxFilesSize"
 
 foreign import setVerifyFunction :: forall e. (Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)) -> (ExpressM e Unit)
 foreign import jsonBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import urlDecoder :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import xmlBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
-foreign import mutipartBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
+foreign import mutipartBodyParser :: forall e. Foreign -> Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
 foreign import textBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)

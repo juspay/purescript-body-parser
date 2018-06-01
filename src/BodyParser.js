@@ -75,26 +75,28 @@ exports.xmlBodyParser = function(req, res, next) {
   }
 };
 
-exports.mutipartBodyParser = function(req, res, next) {
-  if(req.is("multipart/form-data")) {
-    var form = new multiparty.Form();
-    req.body = {};
-    form.parse(req, function(err, fields, files) {
-      if(err) {
-        res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
-      } else {
-        try {
-          var keys = Object.keys(fields);
-          keys.map(function(key) { fields[key] = fields[key][0]});
-          req.body = fields;
-          next();
-        } catch (error) {
+exports.mutipartBodyParser = function(options) {
+  return function (req, res, next) {
+    if(req.is("multipart/form-data")) {
+      var form = new multiparty.Form(options);
+      req.body = {};
+      form.parse(req, function(err, fields, files) {
+        if(err) {
           res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
+        } else {
+          try {
+            var keys = Object.keys(fields);
+            keys.map(function(key) { fields[key] = fields[key][0]});
+            req.body = fields;
+            next();
+          } catch (error) {
+            res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
+          }
         }
-      }
-    });
-  } else {
-    next();
+      });
+    } else {
+      next();
+    }
   }
 }
 
