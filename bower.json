@@ -20,6 +20,6 @@
     "tests"
   ],
   "dependencies": {
-    "purescript-express": "^0.6.4"
+    "purescript-express": "https://github.com/nkly/purescript-express"
   }
 }
