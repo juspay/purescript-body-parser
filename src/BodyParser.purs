@@ -22,10 +22,12 @@
 module BodyParser where
 
 import Prelude
-import Data.Foreign (Foreign)
-import Data.Function.Uncurried (Fn3, Fn4)
-import Data.Options (Option, Options, opt, options)
-import Node.Express.Types (ExpressM, Request, Response)
+
+import Data.Function.Uncurried (Fn3)
+import Data.Options (Option, opt)
+import Effect (Effect)
+import Foreign (Foreign)
+import Node.Express.Types (Request, Response)
 
 data BodyParserOpts
 data MutipartParserOpts
@@ -36,9 +38,9 @@ mpMaxFieldsSize = opt "maxFieldsSize"
 mpMaxFileSize :: Option MutipartParserOpts Int
 mpMaxFileSize = opt "maxFilesSize"
 
-foreign import setVerifyFunction :: forall e. (Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)) -> (ExpressM e Unit)
-foreign import jsonBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
-foreign import urlDecoder :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
-foreign import xmlBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
-foreign import mutipartBodyParser :: forall e. Foreign -> Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
-foreign import textBodyParser :: forall e. Fn3 Request Response (ExpressM e Unit) (ExpressM e Unit)
+foreign import setVerifyFunction :: (Fn3 Request Response (Effect Unit) (Effect Unit)) -> (Effect Unit)
+foreign import jsonBodyParser :: Fn3 Request Response (Effect Unit) (Effect Unit)
+foreign import urlDecoder :: Fn3 Request Response (Effect Unit) (Effect Unit)
+foreign import xmlBodyParser :: Fn3 Request Response (Effect Unit) (Effect Unit)
+foreign import mutipartBodyParser :: Foreign -> Fn3 Request Response (Effect Unit) (Effect Unit)
+foreign import textBodyParser :: Fn3 Request Response (Effect Unit) (Effect Unit)
