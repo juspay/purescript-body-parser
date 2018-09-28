@@ -57,7 +57,12 @@ var xmlOptions = {
 };
 
 exports.xmlBodyParser = function(req, res, next) {
-  if (req.is("application/xml") || req.is("text/xml")) {
+  var isNotParsed = req._body !== true;
+  var contentType = req.headers['content-type']
+  var isXML = contentType === "application/xml" ||
+              contentType === "text/xml";
+  
+  if (isNotParsed && isXML) {
     var bodyStr = '';
     req.on("data", function(chunk) {
       bodyStr += chunk.toString();
@@ -65,6 +70,8 @@ exports.xmlBodyParser = function(req, res, next) {
     req.on("end", function(chunk) {
       try {
         req.body = xmlParser.toJson(bodyStr, xmlOptions);
+        // mark as parsed
+        req._body = true;
         next();
       } catch (err) {
         res.status(400).send({ status: "FAILURE", responseCode: 'XML_PARSING_ERROR', responseMessage: 'Failed while parsing XML Request' });
