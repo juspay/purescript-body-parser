@@ -58,7 +58,10 @@ var xmlOptions = {
 
 exports.xmlBodyParser = function(req, res, next) {
   var isNotParsed = req._body !== true;
-  var isXML = req.is("application/xml") || req.is("text/xml")    
+  var contentType = req.headers['content-type']
+  var isXML = contentType === "application/xml" ||
+              contentType === "text/xml";
+  
   if (isNotParsed && isXML) {
     var bodyStr = '';
     req.on("data", function(chunk) {
