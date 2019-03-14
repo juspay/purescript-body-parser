@@ -67,7 +67,7 @@ exports.xmlBodyParser = function(req, res, next) {
         req.body = xmlParser.toJson(bodyStr, xmlOptions);
         next();
       } catch (err) {
-        res.status(400).send({ status: "FAILURE", responseCode: 'XML_PARSING_ERROR', responseMessage: 'Failed while parsing XML Request' });
+        next(new Error('XML_PARSING_ERROR'));
       }
     });
   } else {
@@ -82,7 +82,7 @@ exports.mutipartBodyParser = function(options) {
       req.body = {};
       form.parse(req, function(err, fields, files) {
         if(err) {
-          res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
+          next(new Error('MUTIPART_PARSING_ERROR'));
         } else {
           try {
             var keys = Object.keys(fields);
@@ -90,7 +90,7 @@ exports.mutipartBodyParser = function(options) {
             req.body = fields;
             next();
           } catch (error) {
-            res.status(400).send({ status: "FAILURE", responseCode: 'MUTIPART_PARSING_ERROR', responseMessage: 'Failed while parsing Mutipart-Form-Data Request' });
+            next(new Error('MUTIPART_PARSING_ERROR'));
           }
         }
       });
