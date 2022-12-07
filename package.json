@@ -18,7 +18,7 @@
   "license": "https://github.com/juspay/purescript-body-parser/blob/master/LICENSE",
   "homepage": "https://bitbucket.org/newspecies/purescript-body-parser#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
+    "body-parser": "^1.20.1",
     "multiparty": "^4.1.4",
     "xml2json": "^0.11.2"
   }
